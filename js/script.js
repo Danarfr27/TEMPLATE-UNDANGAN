@@ -1,476 +1,441 @@
-/* THE WEDDING OF ALEXANDER & AMELIA — script.js · Vanilla JS ES6+ */
-'use strict';
+(() => {
+  "use strict";
 
-/* 0. CONFIG — ganti data pengantin di sini */
-const CONFIG = {
-  groomName: 'Alexander James',
-  brideName: 'Amelia Rose',
-  weddingDateISO: '2026-12-12T09:00:00+07:00',
-  rsvpDeadlineISO: '2026-12-01T23:59:59+07:00',
-  mapsUrl: 'https://maps.google.com/?q=Kemang+Raya+Jakarta',
-  musicSrc: 'audio/wedding-song.wav',
-  storageKey: 'am_wishes_v1',
-  rsvpKey: 'am_rsvp_v1',
-};
+  const CONFIG = {
+    weddingDate: "2026-12-12T09:00:00+07:00",
+    gallery: [
+      { src: "images/gallery-1.svg", caption: "01 / STILLNESS" },
+      { src: "images/gallery-2.svg", caption: "02 / LAUGHTER" },
+      { src: "images/gallery-3.svg", caption: "03 / SUNSET" },
+      { src: "images/gallery-4.svg", caption: "04 / TOGETHER" },
+      { src: "images/gallery-5.svg", caption: "05 / HOME" }
+    ]
+  };
 
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-const lerp = (a, b, t) => a + (b - a) * t;
-const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
-const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+  const $ = (selector, scope = document) => scope.querySelector(selector);
+  const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
-/* 1. OPENING — cinematic door transition */
-function initOpening() {
-  const opening = document.getElementById('opening');
-  const btnOpen = document.getElementById('btnOpen');
-  const site = document.getElementById('site');
+  function initOpening() {
+    const opening = $("#opening");
+    const button = $("#openInvitation");
+    const music = $("#bgMusic");
 
-  document.body.classList.add('is-locked');
-  requestAnimationFrame(() => opening.classList.add('is-loaded'));
+    if (!opening || !button) return;
 
-  btnOpen.addEventListener('click', () => {
-    if (opening.classList.contains('is-opening')) return;
-    opening.classList.add('is-opening');
-    Music.start();
+    button.addEventListener("click", () => {
+      opening.classList.add("is-open", "is-leaving");
+      document.body.classList.remove("is-locked");
 
-    const DOOR_MS = 1750;
-    setTimeout(() => {
-      document.body.classList.remove('is-locked');
-      document.body.classList.add('is-opened');
-      site.setAttribute('aria-hidden', 'false');
-    }, DOOR_MS * 0.55);
+      if (music) {
+        music.volume = 0.34;
+        music.play().then(() => setMusicState(true)).catch(() => setMusicState(false));
+      }
 
-    setTimeout(() => {
-      opening.classList.add('is-done');
-      ScrollFX.start();
-    }, DOOR_MS);
-  }, { passive: true });
-}
+      window.setTimeout(() => {
+        opening.style.display = "none";
+      }, 1900);
+    });
+  }
 
-/* 2. MUSIC — HTML Audio API */
-const Music = (() => {
-  const audio = document.getElementById('bgMusic');
-  const toggle = document.getElementById('musicToggle');
-  let playing = false;
+  function setMusicState(isPlaying) {
+    const toggle = $("#musicToggle");
+    const bars = $(".music-bars");
+    if (!toggle || !bars) return;
+    toggle.setAttribute("aria-pressed", String(isPlaying));
+    bars.classList.toggle("is-playing", isPlaying);
+  }
 
-  audio.volume = 0.55;
+  function initMusic() {
+    const music = $("#bgMusic");
+    const toggle = $("#musicToggle");
+    if (!music || !toggle) return;
 
-  async function start() {
-    try {
-      await audio.play();
-      playing = true;
-      sync();
-    } catch (err) {
-      playing = false;
-      sync();
+    toggle.addEventListener("click", async () => {
+      try {
+        if (music.paused) {
+          await music.play();
+          setMusicState(true);
+        } else {
+          music.pause();
+          setMusicState(false);
+        }
+      } catch {
+        showToast("Audio lokal belum tersedia. Tambahkan lagu sendiri di audio/ambient-pulse.wav atau ganti source di index.html.");
+      }
+    });
+
+    music.addEventListener("play", () => setMusicState(true));
+    music.addEventListener("pause", () => setMusicState(false));
+    music.addEventListener("error", () => setMusicState(false));
+  }
+
+  function initCountdown() {
+    const nodes = {
+      days: $('[data-count="days"]'),
+      hours: $('[data-count="hours"]'),
+      minutes: $('[data-count="minutes"]'),
+      seconds: $('[data-count="seconds"]')
+    };
+    const target = new Date(CONFIG.weddingDate).getTime();
+
+    const pad = value => String(value).padStart(2, "0");
+
+    function tick() {
+      const diff = Math.max(0, target - Date.now());
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      nodes.days.textContent = String(days).padStart(2, "0");
+      nodes.hours.textContent = pad(hours);
+      nodes.minutes.textContent = pad(minutes);
+      nodes.seconds.textContent = pad(seconds);
     }
-  }
-  function pause() { audio.pause(); playing = false; sync(); }
-  function sync() {
-    toggle.classList.toggle('is-playing', playing);
-    toggle.setAttribute('aria-pressed', String(playing));
-  }
-  toggle.addEventListener('click', () => (playing ? pause() : start()));
-  return { start, get playing() { return playing; } };
-})();
 
-/* 3. SCROLL FX ENGINE — one rAF loop: reveals, depth frames, parallax */
-const ScrollFX = (() => {
-  const scenes = [];
-  const parallax = [];
-  let ticking = false;
-  let running = false;
-  let vh = window.innerHeight;
-
-  function collect() {
-    document.querySelectorAll('[data-depth]').forEach(scene => {
-      const win = scene.querySelector('.frame-window');
-      const photo = scene.querySelector('.frame-photo');
-      if (win && photo) scenes.push({ scene, win, photo });
-    });
-    document.querySelectorAll('[data-parallax]').forEach(el => {
-      parallax.push([el, parseFloat(el.dataset.parallax) || 0.15]);
-    });
+    tick();
+    window.setInterval(tick, 1000);
   }
 
-  function initReveals() {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(en => {
-        if (en.isIntersecting) {
-          const el = en.target;
-          const sibs = el.parentElement ? [...el.parentElement.children].filter(c => c.classList.contains('reveal')) : [el];
-          const idx = sibs.indexOf(el);
-          el.style.setProperty('--rd', `${Math.min(idx, 5) * 0.09}s`);
-          el.classList.add('in-view');
-          io.unobserve(el);
+  function initReveal() {
+    const reveal = $$(".reveal");
+    if (!("IntersectionObserver" in window)) {
+      reveal.forEach(el => el.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }, { threshold: 0.16 });
+
+    reveal.forEach(el => observer.observe(el));
   }
 
-  function updateDepth() {
-    const scrollY = window.scrollY;
-    for (const [el, speed] of parallax) {
-      const r = el.getBoundingClientRect();
-      if (r.bottom < -200 || r.top > vh + 200) continue;
-      const offset = (r.top + r.height / 2 - vh / 2) * speed;
-      el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
-    }
-    for (const s of scenes) {
-      const r = s.scene.getBoundingClientRect();
-      if (r.bottom < -160 || r.top > vh + 160) continue;
-      const raw = (vh - r.top) / (vh * 0.92);
-      const p = easeOutCubic(clamp(raw, 0, 1));
-      const tz = -460 * (1 - p);
-      const sc = 0.58 + 0.45 * p;
-      const bl = 9 * (1 - p);
-      const op = clamp(p * 1.5, 0, 1);
-      s.photo.style.transform = `translateZ(${tz.toFixed(1)}px) scale(${sc.toFixed(3)})`;
-      s.photo.style.filter = `blur(${bl.toFixed(2)}px) brightness(${(0.7 + 0.3 * p).toFixed(2)})`;
-      s.photo.style.opacity = op.toFixed(2);
-      const drift = (r.top + r.height / 2 - vh / 2) / vh;
-      s.win.style.transform = `rotateX(${(-drift * 3).toFixed(2)}deg)`;
-    }
-    void scrollY;
-  }
+  function initFrameAnimations() {
+    const scenes = $$("[data-frame-scene]");
+    if (!scenes.length) return;
 
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(() => { updateDepth(); ticking = false; });
-    }
-  }
-  function onResize() { vh = window.innerHeight; updateDepth(); }
+    let raf = 0;
 
-  function start() {
-    if (running) return;
-    running = true;
-    if (!prefersReducedMotion) {
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onResize, { passive: true });
-      updateDepth();
-    } else {
-      scenes.forEach(s => {
-        s.photo.style.transform = 'none';
-        s.photo.style.filter = 'none';
-        s.photo.style.opacity = '1';
+    const update = () => {
+      raf = 0;
+      const viewportCenter = window.innerHeight * 0.5;
+
+      scenes.forEach(scene => {
+        const rect = scene.getBoundingClientRect();
+        const progress = Math.max(0, Math.min(1, (viewportCenter - rect.top) / Math.max(rect.height, 1)));
+        const distance = Math.min(1.25, Math.max(-0.35, progress));
+
+        const photo = $(".depth-photo", scene);
+        const shadow = $(".media-frame__shadow, .story-scene__depth", scene);
+        if (!photo) return;
+
+        const z = -420 + distance * 440;
+        const scale = 0.58 + distance * 0.48;
+        const rotateX = (0.12 - distance * 0.14) * 25;
+        const rotateY = (0.5 - distance) * 5;
+        const x = Math.sin(distance * Math.PI) * (scene.matches(".story-scene--reverse") ? 12 : -12);
+        const y = (0.5 - distance) * 26;
+        const blur = Math.max(0, (1 - distance) * 8);
+
+        photo.style.transform = `translate3d(${x}px, ${y}px, ${z}px) scale(${scale}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        photo.style.filter = `blur(${blur}px)`;
+        photo.style.opacity = String(Math.min(1, Math.max(0, distance * 1.5)));
+
+        if (shadow) {
+          shadow.style.transform = `translate3d(${x * .45}px, ${Math.max(0, y) + 18}px, ${z * .1}px) scale(${0.86 + distance * .16})`;
+          shadow.style.opacity = String(0.25 + distance * 0.55);
+        }
+
+        scene.style.setProperty("--scene-progress", distance.toFixed(4));
       });
-    }
+    };
+
+    const request = () => {
+      if (!raf) raf = window.requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request, { passive: true });
+    request();
   }
 
-  function init() { collect(); initReveals(); }
-  return { init, start };
-})();
-
-/* 4. COUNTDOWN — animated number transitions */
-function initCountdown() {
-  const target = new Date(CONFIG.weddingDateISO).getTime();
-  const els = {
-    d: document.getElementById('cd-days'),
-    h: document.getElementById('cd-hours'),
-    m: document.getElementById('cd-mins'),
-    s: document.getElementById('cd-secs'),
-  };
-  const pad = n => String(n).padStart(2, '0');
-  const prev = {};
-
-  function setNum(el, key, val) {
-    if (prev[key] === val) return;
-    prev[key] = val;
-    el.textContent = pad(val);
-    if (!prefersReducedMotion) {
-      el.classList.remove('tick');
-      void el.offsetWidth;
-      el.classList.add('tick');
-    }
+  function initParallax() {
+    const hero = $(".hero");
+    if (!hero) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const y = window.scrollY;
+      hero.style.setProperty("--hero-y", `${y * 0.1}px`);
+    };
+    const request = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", request, { passive: true });
   }
-  function tick() {
-    const diff = Math.max(0, target - Date.now());
-    setNum(els.d, 'd', Math.floor(diff / 864e5));
-    setNum(els.h, 'h', Math.floor(diff / 36e5) % 24);
-    setNum(els.m, 'm', Math.floor(diff / 6e4) % 60);
-    setNum(els.s, 's', Math.floor(diff / 1e3) % 60);
-  }
-  tick();
-  setInterval(tick, 1000);
-}
 
-/* 5. GALLERY + LIGHTBOX (keyboard + swipe) */
-function initGallery() {
-  const items = [...document.querySelectorAll('.g-item')];
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lbImg');
-  const lbCap = document.getElementById('lbCap');
-  const data = items.map(f => ({
-    src: f.querySelector('img').getAttribute('src'),
-    alt: f.querySelector('img').alt,
-    cap: f.querySelector('figcaption')?.textContent || '',
-  }));
-  let idx = 0;
-  let lastFocus = null;
-  let touchX = null;
+  function initScrollIndex() {
+    const sections = $$("[data-section]");
+    const index = $("#scrollIndex");
+    if (!index) return;
 
-  function open(i) {
-    idx = (i + data.length) % data.length;
-    lastFocus = document.activeElement;
-    lb.hidden = false;
-    requestAnimationFrame(() => lb.classList.add('is-open'));
-    show();
-    document.body.style.overflow = 'hidden';
-    document.getElementById('lbClose').focus();
-  }
-  function show() {
-    lbImg.src = data[idx].src;
-    lbImg.alt = data[idx].alt;
-    lbCap.textContent = data[idx].cap;
-  }
-  function close() {
-    lb.classList.remove('is-open');
-    setTimeout(() => { lb.hidden = true; }, 450);
-    document.body.style.overflow = '';
-    if (lastFocus) lastFocus.focus();
-  }
-  function nav(dir) { idx = (idx + dir + data.length) % data.length; show(); }
+    let active = 1;
+    const total = 11;
 
-  items.forEach((f, i) => {
-    f.setAttribute('tabindex', '0');
-    f.setAttribute('role', 'button');
-    f.setAttribute('aria-label', `Perbesar foto: ${data[i].cap}`);
-    f.addEventListener('click', () => open(i));
-    f.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const section = sections.indexOf(entry.target);
+          if (section >= 0) active = Math.min(total, section + 1);
+          index.textContent = `${String(active).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+        }
+      });
+    }, { threshold: 0.42 });
+
+    sections.forEach(section => observer.observe(section));
+  }
+
+  function initGallery() {
+    const lightbox = $("#lightbox");
+    const image = $("#lightboxImage");
+    const caption = $("#lightboxCaption");
+    const cards = $$(".gallery-card");
+    const close = $(".lightbox__close", lightbox);
+    const prev = $(".lightbox__nav--prev", lightbox);
+    const next = $(".lightbox__nav--next", lightbox);
+    let current = 0;
+
+    if (!lightbox || !cards.length) return;
+
+    const render = () => {
+      const item = CONFIG.gallery[current];
+      image.src = item.src;
+      image.alt = item.caption;
+      caption.textContent = item.caption;
+    };
+
+    const open = index => {
+      current = index;
+      render();
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.classList.add("is-locked");
+      close.focus();
+    };
+
+    const hide = () => {
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("is-locked");
+    };
+
+    cards.forEach(card => card.addEventListener("click", () => open(Number(card.dataset.gallery))));
+    close.addEventListener("click", hide);
+    prev.addEventListener("click", () => { current = (current - 1 + CONFIG.gallery.length) % CONFIG.gallery.length; render(); });
+    next.addEventListener("click", () => { current = (current + 1) % CONFIG.gallery.length; render(); });
+
+    lightbox.addEventListener("click", event => {
+      if (event.target === lightbox) hide();
     });
-  });
-  document.getElementById('lbClose').addEventListener('click', close);
-  document.getElementById('lbPrev').addEventListener('click', () => nav(-1));
-  document.getElementById('lbNext').addEventListener('click', () => nav(1));
-  lb.addEventListener('click', e => { if (e.target === lb) close(); });
 
-  document.addEventListener('keydown', e => {
-    if (lb.hidden) return;
-    if (e.key === 'Escape') close();
-    if (e.key === 'ArrowLeft') nav(-1);
-    if (e.key === 'ArrowRight') nav(1);
-  });
-  lb.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
-  lb.addEventListener('touchend', e => {
-    if (touchX === null) return;
-    const dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 48) nav(dx > 0 ? -1 : 1);
-    touchX = null;
-  }, { passive: true });
-}
+    window.addEventListener("keydown", event => {
+      if (!lightbox.classList.contains("is-open")) return;
+      if (event.key === "Escape") hide();
+      if (event.key === "ArrowLeft") prev.click();
+      if (event.key === "ArrowRight") next.click();
+    });
 
-/* 6. RSVP + WISHES */
-function initRsvp() {
-  const form = document.getElementById('rsvpForm');
-  const err = document.getElementById('formError');
-  const overlay = document.getElementById('confirmOverlay');
-  const confirmText = document.getElementById('confirmText');
+    let touchX = 0;
+    lightbox.addEventListener("touchstart", event => { touchX = event.changedTouches[0].clientX; }, { passive: true });
+    lightbox.addEventListener("touchend", event => {
+      const delta = event.changedTouches[0].clientX - touchX;
+      if (Math.abs(delta) < 40) return;
+      if (delta > 0) prev.click(); else next.click();
+    }, { passive: true });
+  }
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    err.textContent = '';
-    const fd = new FormData(form);
-    const name = (fd.get('name') || '').toString().trim();
-    const guests = fd.get('guests');
-    const attend = fd.get('attend');
-    const message = (fd.get('message') || '').toString().trim();
+  function initRSVP() {
+    const form = $("#rsvpForm");
+    if (!form) return;
 
-    if (!name) { err.textContent = 'Mohon isi nama Anda.'; return; }
-    if (!guests) { err.textContent = 'Mohon pilih jumlah tamu.'; return; }
-    if (!attend) { err.textContent = 'Mohon konfirmasi kehadiran Anda.'; return; }
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const name = data.get("name");
+      showToast(`Terima kasih, ${name}. RSVP kamu sudah tercatat di browser ini.`);
+      form.reset();
+    });
+  }
 
-    const rsvp = { name, guests, attend, message, ts: Date.now() };
-    try {
-      const all = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
-      all.unshift(rsvp);
-      localStorage.setItem(CONFIG.storageKey, JSON.stringify(all.slice(0, 60)));
-      localStorage.setItem(CONFIG.rsvpKey, JSON.stringify(rsvp));
-    } catch (errStorage) { /* private mode — continue gracefully */ }
+  function initWishes() {
+    const form = $("#wishesForm");
+    if (!form) return;
 
-    confirmText.textContent = `Terima kasih, ${name}. Konfirmasi "${attend}" untuk ${guests} tamu telah kami terima.`;
-    overlay.hidden = false;
-    requestAnimationFrame(() => overlay.classList.add('is-open'));
-    renderWishes();
-    form.reset();
-  });
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const name = new FormData(form).get("name");
+      showToast(`Terima kasih, ${name}. Doa baikmu sudah kami terima.`);
+      form.reset();
+    });
+  }
 
-  document.getElementById('confirmClose').addEventListener('click', () => {
-    overlay.classList.remove('is-open');
-    setTimeout(() => { overlay.hidden = true; }, 450);
-  });
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) {
-      overlay.classList.remove('is-open');
-      setTimeout(() => { overlay.hidden = true; }, 450);
-    }
-  });
-}
+  function initGiftCopy() {
+    const button = $("#copyGift");
+    if (!button || !navigator.clipboard) return;
 
-function renderWishes() {
-  const list = document.getElementById('wishList');
-  let wishes = [];
-  try { wishes = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]'); }
-  catch (e) { wishes = []; }
-
-  const seed = [
-    { name: 'Rangga & Dita', attend: 'Hadir', message: 'Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.' },
-    { name: 'Keluarga Wijaya', attend: 'Hadir', message: 'Bahagia selalu untuk Alex dan Amelia. Semoga lancar sampai hari-H!' },
-    { name: 'Sarah', attend: 'Masih Ragu', message: 'Turut berbahagia untuk kalian berdua. Semoga Allah memberkahi pernikahan ini.' },
-  ];
-  const all = [...wishes, ...seed].slice(0, 8);
-
-  list.innerHTML = all.length
-    ? all.map(w => `
-      <article class="wish-item">
-        <div class="wish-head">
-          <span class="wish-name">${escapeHtml(w.name)}</span>
-          <span class="wish-badge">${escapeHtml(w.attend)}</span>
-        </div>
-        <p class="wish-msg">${escapeHtml(w.message || '—')}</p>
-      </article>`).join('')
-    : '<p class="wish-empty">Belum ada ucapan. Jadilah yang pertama memberikan doa.</p>';
-}
-function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
-  }[c]));
-}
-
-/* 7. GIFT — copy to clipboard */
-function initGift() {
-  document.querySelectorAll('[data-copy], [data-copy-text]').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const text = btn.dataset.copyText ||
-        (document.getElementById(btn.dataset.copy)?.textContent || '').trim();
+    button.addEventListener("click", async () => {
       try {
-        await navigator.clipboard.writeText(text);
-      } catch (err) {
-        const ta = document.createElement('textarea');
-        ta.value = text; document.body.appendChild(ta);
-        ta.select(); document.execCommand('copy'); ta.remove();
+        await navigator.clipboard.writeText("1234567890");
+        showToast("Nomor rekening berhasil disalin.");
+      } catch {
+        showToast("Nomor rekening belum dapat disalin. Silakan salin manual.");
       }
-      const label = btn.querySelector('span');
-      const old = label.textContent;
-      btn.classList.add('is-copied');
-      label.textContent = 'COPIED ✓';
-      setTimeout(() => { btn.classList.remove('is-copied'); label.textContent = old; }, 1800);
     });
-  });
-}
-
-/* 8. CUSTOM CURSOR */
-function initCursor() {
-  if (!isFinePointer || prefersReducedMotion) return;
-  document.body.classList.add('has-cursor');
-  const dot = document.querySelector('.cursor-dot');
-  const ring = document.querySelector('.cursor-ring');
-  let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
-
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
-  }, { passive: true });
-
-  (function loop() {
-    rx = lerp(rx, mx, 0.16);
-    ry = lerp(ry, my, 0.16);
-    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
-    requestAnimationFrame(loop);
-  })();
-
-  const hoverSel = 'a, button, select, input, textarea, label, .g-item';
-  document.addEventListener('mouseover', e => {
-    if (e.target.closest(hoverSel)) ring.classList.add('is-hover');
-  }, { passive: true });
-  document.addEventListener('mouseout', e => {
-    if (e.target.closest(hoverSel)) ring.classList.remove('is-hover');
-  }, { passive: true });
-  document.addEventListener('mousedown', () => ring.classList.add('is-down'));
-  document.addEventListener('mouseup', () => ring.classList.remove('is-down'));
-}
-
-/* 9. MAGNETIC BUTTONS */
-function initMagnetic() {
-  if (!isFinePointer || prefersReducedMotion) return;
-  document.querySelectorAll('.magnetic').forEach(el => {
-    const strength = 22;
-    el.addEventListener('mousemove', e => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
-      const y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
-      el.style.transform = `translate(${x * strength * 0.4}px, ${y * strength * 0.5}px)`;
-    }, { passive: true });
-    el.addEventListener('mouseleave', () => {
-      el.style.transition = 'transform 0.6s cubic-bezier(0.22,1,0.36,1)';
-      el.style.transform = '';
-      setTimeout(() => { el.style.transition = ''; }, 600);
-    }, { passive: true });
-  });
-}
-
-/* 10. DUST PARTICLES */
-function initDust() {
-  if (prefersReducedMotion) return;
-  const canvas = document.getElementById('dust');
-  const ctx = canvas.getContext('2d');
-  let W, H, parts = [];
-  const COUNT = innerWidth < 640 ? 28 : 55;
-
-  function resize() {
-    W = canvas.width = innerWidth * devicePixelRatio;
-    H = canvas.height = innerHeight * devicePixelRatio;
-    canvas.style.width = innerWidth + 'px';
-    canvas.style.height = innerHeight + 'px';
   }
-  function spawn() {
-    parts = Array.from({ length: COUNT }, () => ({
-      x: Math.random() * W, y: Math.random() * H,
-      r: (Math.random() * 1.6 + 0.4) * devicePixelRatio,
-      vy: -(Math.random() * 0.14 + 0.04) * devicePixelRatio,
-      vx: (Math.random() - 0.5) * 0.1 * devicePixelRatio,
-      a: Math.random() * 0.35 + 0.08,
-      ph: Math.random() * Math.PI * 2,
-      sp: Math.random() * 0.015 + 0.006,
-    }));
+
+  function showToast(message) {
+    const toast = $("#toast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("is-visible");
+    window.clearTimeout(showToast.timer);
+    showToast.timer = window.setTimeout(() => toast.classList.remove("is-visible"), 3400);
   }
-  let visible = true;
-  function loop() {
-    if (visible) {
-      ctx.clearRect(0, 0, W, H);
-      for (const p of parts) {
-        p.ph += p.sp;
-        p.x += p.vx + Math.sin(p.ph) * 0.12 * devicePixelRatio;
+
+  function initCursor() {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    const dot = $(".cursor--dot");
+    const ring = $(".cursor--ring");
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let ringX = mouseX, ringY = mouseY;
+
+    document.body.classList.add("cursor-ready");
+
+    window.addEventListener("mousemove", event => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      dot.style.left = `${mouseX}px`;
+      dot.style.top = `${mouseY}px`;
+    }, { passive: true });
+
+    const animate = () => {
+      ringX += (mouseX - ringX) * .16;
+      ringY += (mouseY - ringY) * .16;
+      ring.style.left = `${ringX}px`;
+      ring.style.top = `${ringY}px`;
+      requestAnimationFrame(animate);
+    };
+    animate();
+
+    $$("a, button, input, select, textarea").forEach(el => {
+      el.addEventListener("mouseenter", () => document.body.classList.add("cursor-hover"));
+      el.addEventListener("mouseleave", () => document.body.classList.remove("cursor-hover"));
+    });
+  }
+
+  function initMagnetic() {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    $$(".magnetic").forEach(el => {
+      el.addEventListener("mousemove", event => {
+        const rect = el.getBoundingClientRect();
+        const dx = event.clientX - (rect.left + rect.width / 2);
+        const dy = event.clientY - (rect.top + rect.height / 2);
+        el.style.transform = `translate(${dx * .1}px, ${dy * .1}px)`;
+      });
+      el.addEventListener("mouseleave", () => {
+        el.style.transform = "";
+      });
+    });
+  }
+
+  function initParticles() {
+    const canvas = $("#particles");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    let width = 0, height = 0, dpr = 1;
+    let particles = [];
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = canvas.clientWidth;
+      height = canvas.clientHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const count = Math.min(70, Math.max(26, Math.floor(width / 22)));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 1.4 + .25,
+        a: Math.random() * .45 + .12,
+        vx: (Math.random() - .5) * .06,
+        vy: -(Math.random() * .15 + .03)
+      }));
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.x += p.vx;
         p.y += p.vy;
-        if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
-        if (p.x < -10) p.x = W + 10;
-        if (p.x > W + 10) p.x = -10;
-        const tw = 0.55 + 0.45 * Math.sin(p.ph * 2);
+        if (p.y < -10) p.y = height + 10;
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(214, 178, 110, ${(p.a * tw).toFixed(3)})`;
+        ctx.fillStyle = `rgba(232,217,193,${p.a})`;
         ctx.fill();
-      }
-    }
-    requestAnimationFrame(loop);
-  }
-  document.addEventListener('visibilitychange', () => { visible = !document.hidden; });
-  window.addEventListener('resize', () => { resize(); spawn(); }, { passive: true });
-  resize(); spawn(); loop();
-}
+      });
+      requestAnimationFrame(draw);
+    };
 
-/* BOOT */
-document.addEventListener('DOMContentLoaded', () => {
-  ScrollFX.init();
-  initOpening();
-  initCountdown();
-  initGallery();
-  initRsvp();
-  renderWishes();
-  initGift();
-  initCursor();
-  initMagnetic();
-  initDust();
-});
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+    draw();
+  }
+
+  function initSwipeFallback() {
+    // Gives mobile users a native-feeling close affordance for focusable dialogs.
+    document.addEventListener("click", event => {
+      const target = event.target.closest("[data-dismiss]");
+      if (target) target.closest("[role=dialog]")?.remove();
+    });
+  }
+
+  function init() {
+    document.body.classList.add("is-locked");
+    initOpening();
+    initMusic();
+    initCountdown();
+    initReveal();
+    initFrameAnimations();
+    initParallax();
+    initScrollIndex();
+    initGallery();
+    initRSVP();
+    initWishes();
+    initGiftCopy();
+    initCursor();
+    initMagnetic();
+    initParticles();
+    initSwipeFallback();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
