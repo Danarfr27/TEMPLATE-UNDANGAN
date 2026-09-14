@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wedding of Alexander &amp; Amelia</title>
+<meta name="description" content="Luxury cinematic digital wedding invitation of Alexander & Amelia">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ATMOSPHERE LAYERS -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
+<!-- ============ OPENING OVERLAY ============ -->
+<div class="opening" id="opening" role="dialog" aria-label="Opening invitation">
+  <div class="opening-panel opening-panel--left" aria-hidden="true"></div>
+  <div class="opening-panel opening-panel--right" aria-hidden="true"></div>
+  <div class="opening-light" aria-hidden="true"></div>
+
+  <div class="opening-content">
+    <p class="opening-eyebrow" data-open-seq>The Wedding Of</p>
+    <h1 class="opening-names">
+      <span class="opening-name" data-open-seq>Alexander</span>
+      <span class="opening-amp" data-open-seq>&amp;</span>
+      <span class="opening-name" data-open-seq>Amelia</span>
+    </h1>
+    <p class="opening-date" data-open-seq>12 . 12 . 2026</p>
+    <button class="btn-magnetic opening-btn" id="openInvitation" data-open-seq>
+      <span class="btn-label">Open Invitation</span>
+      <span class="btn-line" aria-hidden="true"></span>
+    </button>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="hero">
+  <div class="hero-bg" data-parallax="0.12">
+    <img src="images/hero.jpg" alt="Cinematic backdrop of Alexander and Amelia" fetchpriority="high">
+    <div class="hero-bg-shade"></div>
+  </div>
+
+  <div class="hero-inner">
+    <p class="hero-eyebrow reveal-text"><span>Save The Date</span></p>
+    <h2 class="hero-title">
+      <span class="hero-title-line reveal-text"><span>Alexander</span></span>
+      <span class="hero-title-amp reveal-fade">&amp;</span>
+      <span class="hero-title-line reveal-text"><span>Amelia</span></span>
+    </h2>
+    <p class="hero-date reveal-fade">12 . 12 . 2026 — Grand Wedding Hall, Jakarta</p>
+    <div class="hero-scroll reveal-fade" aria-hidden="true">
+      <span>Scroll</span>
+      <span class="hero-scroll-line"></span>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ ANNOUNCEMENT ============ -->
+  <section class="announce section" id="announce" aria-labelledby="announce-title">
+    <div class="section-head">
+      <span class="section-index reveal-fade">01</span>
+      <span class="section-rule reveal-fade" aria-hidden="true"></span>
+      <span class="section-tag reveal-fade">The Announcement</span>
+    </div>
+    <div class="announce-body">
+      <p class="announce-lead reveal-text"><span>With hearts full of gratitude,</span></p>
+      <p class="announce-text reveal-text"><span>we joyfully invite you to witness</span></p>
+      <p class="announce-text reveal-text"><span>the beginning of our forever.</span></p>
+      <div class="announce-quote reveal-fade">
+        <blockquote>
+          “And among His signs is that He created for you spouses from among yourselves,
+          that you may find tranquillity in them; and He placed between you affection and mercy.”
+        </blockquote>
+        <cite>— QS. Ar-Rum : 21</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COUPLE / HERO COUPLE ============ -->
+  <section class="couple section" id="couple" aria-labelledby="couple-title">
+    <div class="section-head">
+      <span class="section-index reveal-fade">02</span>
+      <span class="section-rule reveal-fade" aria-hidden="true"></span>
+      <span class="section-tag reveal-fade">Bride &amp; Groom</span>
+    </div>
+
+    <div class="couple-stage">
+      <figure class="couple-frame memory-frame" data-frame>
+        <div class="frame-layers">
+          <span class="frame-deco frame-deco--tl" aria-hidden="true"></span>
+          <span class="frame-deco frame-deco--br" aria-hidden="true"></span>
+          <div class="frame-hole frame-hole--arch">
+            <div class="photo-depth" data-depth="0.55">
+              <img src="images/couple.jpg" alt="Alexander and Amelia, the couple" loading="lazy">
+            </div>
+          </div>
+          <div class="frame-border frame-border--arch" aria-hidden="true"></div>
+        </div>
+        <figcaption class="couple-caption reveal-fade">
+          <span class="couple-caption-eyebrow">Together</span>
+          <span class="couple-caption-date">Est. 2019</span>
+        </figcaption>
+      </figure>
+
+      <div class="couple-person couple-person--left">
+        <span class="couple-role reveal-fade">The Groom</span>
+        <h3 class="couple-name reveal-text"><span>Alexander James</span></h3>
+        <p class="couple-parent reveal-fade">Son of Mr. Jonathan James &amp; Mrs. Catherine James</p>
+      </div>
+
+      <div class="couple-person couple-person--right">
+        <span class="couple-role reveal-fade">The Bride</span>
+        <h3 class="couple-name reveal-text"><span>Amelia Rose</span></h3>
+        <p class="couple-parent reveal-fade">Daughter of Mr. William Rose &amp; Mrs. Evelyn Rose</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUR STORY ============ -->
+  <section class="story section" id="story" aria-labelledby="story-title">
+    <div class="section-head">
+      <span class="section-index reveal-fade">03</span>
+      <span class="section-rule reveal-fade" aria-hidden="true"></span>
+      <span class="section-tag reveal-fade">Our Story</span>
+    </div>
+    <h3 class="section-title reveal-text" id="story-title"><span>Four Chapters of Us</span></h3>
+
+    <article class="chapter" data-chapter>
+      <div class="chapter-media">
+        <figure class="memory-frame chapter-frame" data-frame>
+          <div class="frame-layers">
+            <div class="frame-hole frame-hole--arch">
+              <div class="photo-depth" data-depth="0.6">
+                <img src="images/story-1.jpg" alt="Where it all began" loading="lazy">
+              </div>
+            </div>
+            <div class="frame-border frame-border--arch" aria-hidden="true"></div>
+          </div>
+        </figure>
+      </div>
+      <div class="chapter-text">
+        <span class="chapter-index reveal-fade">Chapter I</span>
+        <h4 class="chapter-title reveal-text"><span>Where It All Began</span></h4>
+        <p class="chapter-body reveal-text"><span>A rainy afternoon in a small café. Two strangers,
+        one umbrella forgotten on the same chair. Some stories begin quietly — ours began with a smile.</span></p>
+      </div>
+    </article>
+
+    <article class="chapter chapter--flip" data-chapter>
+      <div class="chapter-media">
+        <figure class="memory-frame chapter-frame" data-frame>
+          <div class="frame-layers">
+            <div class="frame-hole frame-hole--rect">
+              <div class="photo-depth" data-depth="0.6">
+                <img src="images/story-2.jpg" alt="The journey together" loading="lazy">
+              </div>
+            </div>
+            <div class="frame-border frame-border--rect" aria-hidden="true"></div>
+          </div>
+        </figure>
+      </div>
+      <div class="chapter-text">
+        <span class="chapter-index reveal-fade">Chapter II</span>
+        <h4 class="chapter-title reveal-text"><span>The Journey</span></h4>
+        <p class="chapter-body reveal-text"><span>Through cities, seasons, and late-night conversations,
+        we learned that home is not a place — it is the space between two people who choose each other, always.</span></p>
+      </div>
+    </article>
+
+    <article class="chapter" data-chapter>
+      <div class="chapter-media">
+        <figure class="memory-frame chapter-frame" data-frame>
+          <div class="frame-layers">
+            <div class="frame-hole frame-hole--arch">
+              <div class="photo-depth" data-depth="0.6">
+                <img src="images/story-3.jpg" alt="The promise" loading="lazy">
+              </div>
+            </div>
+            <div class="frame-border frame-border--arch" aria-hidden="true"></div>
+          </div>
+        </figure>
+      </div>
+      <div class="chapter-text">
+        <span class="chapter-index reveal-fade">Chapter III</span>
+        <h4 class="chapter-title reveal-text"><span>The Promise</span></h4>
+        <p class="chapter-body reveal-text"><span>Beneath a sky fading into gold, on one knee,
+        a question was asked — and a lifetime of yes began.</span></p>
+      </div>
+    </article>
+
+    <article class="chapter chapter--flip" data-chapter>
+      <div class="chapter-media">
+        <figure class="memory-frame chapter-frame" data-frame>
+          <div class="frame-layers">
+            <div class="frame-hole frame-hole--arch">
+              <div class="photo-depth" data-depth="0.6">
+                <img src="images/story-4.jpg" alt="Forever begins" loading="lazy">
+              </div>
+            </div>
+            <div class="frame-border frame-border--arch" aria-hidden="true"></div>
+          </div>
+        </figure>
+      </div>
+      <div class="chapter-text">
+        <span class="chapter-index reveal-fade">Chapter IV</span>
+        <h4 class="chapter-title reveal-text"><span>Forever Begins</span></h4>
+        <p class="chapter-body reveal-text"><span>And now, the chapter we have waited for.
+        We would be honoured to have you in the first pages of forever.</span></p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ GALLERY ============ -->
+  <section class="gallery section" id="gallery" aria-labelledby="gallery-title">
+    <div class="section-head">
+      <span class="section-index reveal-fade">04</span>
+      <span class="section-rule reveal-fade" aria-hidden="true"></span>
+      <span class="section-tag reveal-fade">Gallery</span>
+    </div>
+    <h3 class="section-title reveal-text" id="gallery-title"><span>Fragments of Time</span></h3>
+
+    <div class="gallery-grid">
+      <figure class="gallery-item gallery-item--tall reveal-scale" data-gallery tabindex="0" role="button" aria-label="View photo 1">
+        <img src="images/gallery-1.jpg" alt="Engagement evening" loading="lazy"><figcaption>Golden Hour</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--wide reveal-scale" data-gallery tabindex="0" role="button" aria-label="View photo 2">
+        <img src="images/gallery-2.jpg" alt="Evening city walk" loading="lazy"><figcaption>City Lights</figcaption>
+      </figure>
+      <figure class="gallery-item reveal-scale" data-gallery tabindex="0" role="button" aria-label="View photo 3">
+        <img src="images/gallery-3.jpg" alt="Quiet morning" loading="lazy"><figcaption>Quiet Mornings</figcaption>
+      </figure>
+      <figure class="gallery-item reveal-scale" data-gallery tabindex="0" role="button" aria-label="View photo 4">
+        <img src="images/gallery-4.jpg" alt="Letters we wrote" loading="lazy"><figcaption>Written Words</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--tall reveal-scale" data-gallery tabindex="0" role="button" aria-label="View photo 5">
+        <img src="images/gallery-5.jpg" alt="The ring" loading="lazy"><figcaption>The Promise</figcaption>
+      </figure>
+      <figure class="gallery-item gallery-item--wide reveal-scale" data-gallery tabindex="0" role="button" aria-label="View photo 6">
+        <img src="images/gallery-6.jpg" alt="Celebration night" loading="lazy"><figcaption>Celebration</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ COUNTDOWN ============ -->
+  <section class="countdown-section section" id="countdown" aria-labelledby="countdown-title">
+    <div class="countdown-glow" aria-hidden="true"></div>
+    <h3 class="countdown-title reveal-text" id="countdown-title"><span>Until We Say “I Do”</span></h3>
+    <div class="countdown" id="countdownTimer" role="timer" aria-live="off">
+      <div class="countdown-cell"><div class="countdown-flip"><span class="countdown-num" data-unit="days">00</span></div><span class="countdown-label">Days</span></div>
+      <div class="countdown-sep" aria-hidden="true">·</div>
+      <div class="countdown-cell"><div class="countdown-flip"><span class="countdown-num" data-unit="hours">00</span></div><span class="countdown-label">Hours</span></div>
+      <div class="countdown-sep" aria-hidden="true">·</div>
+      <div class="countdown-cell"><div class="countdown-flip"><span class="countdown-num" data-unit="minutes">00</span></div><span class="countdown-label">Minutes</span></div>
+      <div class="countdown-sep" aria-hidden="true">·</div>
+      <div class="countdown-cell"><div class="countdown-flip"><span class="countdown-num" data-unit="seconds">00</span></div><span class="countdown-label">Seconds</span></div>
+    </div>
+  </section>
+
+  <!-- ============ EVENT ============ -->
+  <section class="event section" id="event" aria-labelledby="event-title">
+    <div class="section-head">
+      <span class="section-index reveal-fade">05</span>
+      <span class="section-rule reveal-fade" aria-hidden="true"></span>
+      <span class="section-tag reveal-fade">The Celebration</span>
+    </div>
+    <h3 class="section-title reveal-text" id="event-title"><span>When &amp; Where</span></h3>
+
+    <div class="event-cards">
+      <article class="event-card reveal-card">
+        <span class="event-card-kicker">Sacred Ceremony</span>
+        <h4 class="event-card-title">Akad Nikah</h4>
+        <p class="event-card-date">Friday, 12 December 2026</p>
+        <p class="event-card-time">09:00 — 11:00 WIB</p>
+        <p class="event-card-venue">Grand Wedding Hall</p>
+        <p class="event-card-address">Jl. Kemang Raya No. 1, Jakarta Selatan</p>
+        <a class="btn-ghost btn-magnetic" href="https://maps.google.com/?q=Grand+Wedding+Hall+Jakarta" target="_blank" rel="noopener">
+          <span class="btn-label">View Location</span>
+        </a>
+      </article>
+
+      <article class="event-card reveal-card">
+        <span class="event-card-kicker">Reception</span>
+        <h4 class="event-card-title">Wedding Party</h4>
+        <p class="event-card-date">Friday, 12 December 2026</p>
+        <p class="event-card-time">19:00 — 22:00 WIB</p>
+        <p class="event-card-venue">Grand Wedding Hall</p>
+        <p class="event-card-address">Jl. Kemang Raya No. 1, Jakarta Selatan</p>
+        <a class="btn-ghost btn-magnetic" href="https://maps.google.com/?q=Grand+Wedding+Hall+Jakarta" target="_blank" rel="noopener">
+          <span class="btn-label">View Location</span>
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ RSVP ============ -->
+  <section class="rsvp section" id="rsvp" aria-labelledby="rsvp-title">
+    <div class="section-head">
+      <span class="section-index reveal-fade">06</span>
+      <span class="section-rule reveal-fade" aria-hidden="true"></span>
+      <span class="section-tag reveal-fade">RSVP</span>
+    </div>
+    <h3 class="section-title reveal-text" id="rsvp-title"><span>Will You Join Us?</span></h3>
+
+    <form class="rsvp-form reveal-card" id="rsvpForm" novalidate>
+      <div class="field">
+        <label for="rsvpName">Your Name</label>
+        <input type="text" id="rsvpName" name="name" autocomplete="name" required placeholder="e.g. Andini Pratiwi">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="rsvpGuests">Number of Guests</label>
+          <select id="rsvpGuests" name="guests" required>
+            <option value="" disabled selected>Select</option>
+            <option value="1">1 Guest</option>
+            <option value="2">2 Guests</option>
+            <option value="3">3 Guests</option>
+            <option value="4">4 Guests</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Attendance</label>
+          <div class="attend-toggle" role="radiogroup" aria-label="Attendance confirmation">
+            <label class="attend-option"><input type="radio" name="attend" value="Hadir" checked><span>Hadir</span></label>
+            <label class="attend-option"><input type="radio" name="attend" value="Tidak Hadir"><span>Tidak Hadir</span></label>
+            <label class="attend-option"><input type="radio" name="attend" value="Masih Ragu"><span>Masih Ragu</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="rsvpMessage">A Note for Us <em>(optional)</em></label>
+        <textarea id="rsvpMessage" name="message" rows="3" placeholder="Write something warm…"></textarea>
+      </div>
+
+      <button type="submit" class="btn-solid btn-magnetic">
+        <span class="btn-label">Send RSVP</span>
+        <span class="btn-line" aria-hidden="true"></span>
+      </button>
+      <p class="form-status" id="rsvpStatus" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <!-- ============ WISHES ============ -->
+  <section class="wishes section" id="wishes" aria-labelledby="wishes-title">
+    <div class="section-head">
+      <span class="section-index reveal-fade">07</span>
+      <span class="section-rule reveal-fade" aria-hidden="true"></span>
+      <span class="section-tag reveal-fade">Guestbook</span>
+    </div>
+    <h3 class="section-title reveal-text" id="wishes-title"><span>Words That Warm Us</span></h3>
+
+    <div class="wishes-wrap">
+      <ul class="wishes-list" id="wishesList"></ul>
+    </div>
+  </section>
+
+  <!-- ============ GIFT ============ -->
+  <section class="gift section" id="gift" aria-labelledby="gift-title">
+    <div class="section-head">
+      <span class="section-index reveal-fade">08</span>
+      <span class="section-rule reveal-fade" aria-hidden="true"></span>
+      <span class="section-tag reveal-fade">With Love</span>
+    </div>
+    <h3 class="section-title reveal-text" id="gift-title"><span>Wedding Gift</span></h3>
+    <p class="gift-lead reveal-fade">Your presence is the greatest gift. Should you wish to share a blessing:</p>
+
+    <div class="gift-cards">
+      <div class="gift-card reveal-card">
+        <span class="gift-card-label">Bank Transfer</span>
+        <p class="gift-card-value" id="accountNumber">1234 5678 9012</p>
+        <p class="gift-card-sub">a.n. Alexander James</p>
+        <button class="btn-ghost btn-magnetic" data-copy="123456789012"><span class="btn-label">Copy Number</span></button>
+      </div>
+      <div class="gift-card reveal-card">
+        <span class="gift-card-label">Send a Gift</span>
+        <p class="gift-card-value">Grand Wedding Hall</p>
+        <p class="gift-card-sub">Jl. Kemang Raya No. 1, Jakarta Selatan</p>
+        <button class="btn-ghost btn-magnetic" data-copy="Jl. Kemang Raya No. 1, Jakarta Selatan"><span class="btn-label">Copy Address</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLOSING ============ -->
+  <section class="closing section" id="closing">
+    <figure class="closing-frame memory-frame" data-frame>
+      <div class="frame-layers">
+        <div class="frame-hole frame-hole--arch">
+          <div class="photo-depth" data-depth="0.5">
+            <img src="images/hero.jpg" alt="Alexander and Amelia, until forever" loading="lazy">
+          </div>
+        </div>
+        <div class="frame-border frame-border--arch" aria-hidden="true"></div>
+      </div>
+    </figure>
+    <p class="closing-eyebrow reveal-fade">See You There</p>
+    <h3 class="closing-title">
+      <span class="closing-line reveal-text"><span>Alexander</span></span>
+      <span class="closing-amp reveal-fade">&amp;</span>
+      <span class="closing-line reveal-text"><span>Amelia</span></span>
+    </h3>
+    <p class="closing-date reveal-fade">12 . 12 . 2026</p>
+  </section>
+</main>
+
+<footer class="footer">
+  <p class="footer-note">Crafted with love — Alexander &amp; Amelia</p>
+  <p class="footer-fine">Luxury Cinematic Wedding Invitation</p>
+</footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close photo viewer">&times;</button>
+  <button class="lightbox-nav lightbox-nav--prev" id="lightboxPrev" aria-label="Previous photo">&#10094;</button>
+  <figure class="lightbox-stage">
+    <img id="lightboxImg" src="" alt="">
+    <figcaption id="lightboxCaption"></figcaption>
+  </figure>
+  <button class="lightbox-nav lightbox-nav--next" id="lightboxNext" aria-label="Next photo">&#10095;</button>
+</div>
+
+<!-- ============ MUSIC TOGGLE ============ -->
+<button class="music-toggle" id="musicToggle" aria-label="Toggle background music" aria-pressed="false">
+  <span class="music-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+</button>
+
+<audio id="bgMusic" src="audio/wedding-song.mp3" loop preload="none"></audio>
+
+<script src="js/script.js"></script>
+</body>
+</html>
