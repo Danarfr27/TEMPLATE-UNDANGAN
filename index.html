@@ -1,414 +1,342 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="The Wedding of Alexander & Amelia — 12 December 2026" />
-  <title>The Wedding of Alexander &amp; Amelia — 12.12.2026</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <meta name="theme-color" content="#0b0a09" />
+  <meta name="description" content="A cinematic luxury wedding invitation." />
+  <title>THE WEDDING OF — Bride & Groom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
 </head>
-<body data-state="locked">
+<body>
+  <div class="site-grain" aria-hidden="true"></div>
+  <div class="site-vignette" aria-hidden="true"></div>
 
-  <canvas id="dust" aria-hidden="true"></canvas>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="vignette" aria-hidden="true"></div>
-  <div class="cursor-dot" aria-hidden="true"></div>
-  <div class="cursor-ring" aria-hidden="true"></div>
-
-  <!-- OPENING -->
-  <div class="opening" id="opening" role="dialog" aria-label="Pembuka undangan">
-    <div class="door door-left" aria-hidden="true"><span class="door-frame"></span></div>
-    <div class="door door-right" aria-hidden="true"><span class="door-frame"></span></div>
-    <div class="opening-light" aria-hidden="true"></div>
-    <div class="opening-content">
-      <p class="o-eyebrow anim-item">THE WEDDING OF</p>
-      <h1 class="o-names">
-        <span class="o-name anim-item">ALEXANDER</span>
-        <span class="o-amp anim-item">&amp;</span>
-        <span class="o-name anim-item">AMELIA</span>
-      </h1>
-      <div class="o-sep anim-item" aria-hidden="true"></div>
-      <p class="o-date anim-item">12 . 12 . 2026</p>
-      <button class="btn-open anim-item" id="btnOpen" type="button">
-        <span class="btn-open-line" aria-hidden="true"></span>
-        <span class="btn-open-text">OPEN INVITATION</span>
-        <span class="btn-open-line" aria-hidden="true"></span>
+  <div class="opening" id="opening" aria-label="Wedding invitation opening">
+    <div class="opening__aura"></div>
+    <div class="opening__content">
+      <p class="eyebrow opening__kicker">THE WEDDING OF</p>
+      <h1 class="opening__names"><span>Alexander</span><em>&</em><span>Amelia</span></h1>
+      <p class="opening__date">12 · 12 · 2026</p>
+      <button class="button button--light opening__button magnetic" id="openInvitation" type="button">
+        <span>OPEN INVITATION</span><i aria-hidden="true">↗</i>
       </button>
     </div>
+    <div class="opening__panel opening__panel--left"></div>
+    <div class="opening__panel opening__panel--right"></div>
   </div>
 
-  <main class="site" id="site" aria-hidden="true">
+  <div class="cursor cursor--dot" aria-hidden="true"></div>
+  <div class="cursor cursor--ring" aria-hidden="true"></div>
 
-    <!-- HERO -->
-    <section class="hero" id="home">
-      <div class="hero-bg" data-parallax="0.12">
-        <img src="images/hero.jpg" alt="" aria-hidden="true" loading="eager" />
-        <div class="hero-shade"></div>
-      </div>
-      <div class="hero-inner">
-        <p class="hero-eyebrow reveal">WE ARE GETTING MARRIED</p>
-        <h2 class="hero-names">
-          <span class="hero-name reveal">Alexander</span>
-          <span class="hero-amp reveal">&amp;</span>
-          <span class="hero-name reveal">Amelia</span>
-        </h2>
-        <p class="hero-date reveal">SATURDAY&nbsp;&nbsp;·&nbsp;&nbsp;12 . 12 . 2026</p>
-      </div>
-      <div class="hero-scroll reveal" aria-hidden="true"><span></span></div>
-    </section>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Go to top">A <span>×</span> A</a>
+    <div class="topbar__right">
+      <span class="scroll-index" id="scrollIndex">01 / 09</span>
+      <button class="icon-button magnetic" id="musicToggle" type="button" aria-label="Toggle background music" aria-pressed="false">
+        <span class="music-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+    </div>
+  </header>
 
-    <!-- ANNOUNCEMENT -->
-    <section class="announce section" id="announce">
-      <div class="container">
-        <p class="section-label reveal">THE ANNOUNCEMENT</p>
-        <div class="ornament reveal" aria-hidden="true"><i></i><b></b><i></i></div>
-        <p class="announce-text reveal">Dengan memohon rahmat dan ridha Tuhan Yang Maha Esa, kami
-          bermaksud menyelenggarakan pernikahan putra-putri kami. Merupakan suatu kehormatan dan
-          kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa
-          restu kepada kedua mempelai.</p>
-        <div class="parents">
-          <div class="parent reveal">
-            <span class="parent-role">THE BRIDE</span>
-            <h3>Amelia Rose</h3>
-            <p>Putri kedua dari<br />Bapak Budi Santoso &amp; Ibu Sari Wulandari</p>
-          </div>
-          <div class="parent-amp reveal" aria-hidden="true">&amp;</div>
-          <div class="parent reveal">
-            <span class="parent-role">THE GROOM</span>
-            <h3>Alexander James</h3>
-            <p>Putra pertama dari<br />Bapak David Wijaya &amp; Ibu Ratna Wijaya</p>
-          </div>
-        </div>
+  <main id="home">
+    <section class="hero section section--hero" id="hero">
+      <canvas class="particles" id="particles"></canvas>
+      <div class="hero__media media-frame media-frame--hero depth-scene" data-frame-scene>
+        <div class="media-frame__shadow"></div>
+        <img class="media-frame__image depth-photo" src="images/hero.svg" alt="Editorial portrait placeholder of the couple" />
+        <div class="media-frame__border"></div>
+        <div class="media-frame__ornament">12 · 12 · 2026</div>
+      </div>
+      <div class="hero__copy">
+        <p class="eyebrow reveal">A CINEMATIC BEGINNING</p>
+        <h2 class="display reveal reveal--slow">Two stories.<br><i>One forever.</i></h2>
+        <p class="hero__lede reveal">A quiet invitation to witness the next chapter of Alexander & Amelia.</p>
+      </div>
+      <div class="hero__bottom-meta">
+        <span>SCROLL TO ENTER</span>
+        <span class="line"></span>
+        <span>JAKARTA · ID</span>
       </div>
     </section>
 
-    <!-- COUPLE -->
-    <section class="couple section" id="couple">
-      <div class="container">
-        <p class="section-label reveal">TWO LIVES, ONE STORY</p>
-        <div class="couple-stage">
-          <div class="depth-scene couple-frame" data-depth>
-            <div class="frame-window arch">
-              <div class="frame-photo">
-                <img src="images/couple.jpg" alt="Alexander dan Amelia" loading="lazy" />
-              </div>
-              <span class="frame-corner tl"></span><span class="frame-corner tr"></span>
-              <span class="frame-corner bl"></span><span class="frame-corner br"></span>
-            </div>
-          </div>
-          <div class="couple-caption">
-            <p class="reveal">“And in the middle of chaos, I found you —<br />and suddenly everything made sense.”</p>
-          </div>
+    <section class="manifesto section section--dark" data-section>
+      <div class="section-inner manifesto__grid">
+        <div>
+          <p class="eyebrow">THE ANNOUNCEMENT</p>
+          <h2 class="display display--large">With grateful hearts,<br><i>we begin forever.</i></h2>
         </div>
-        <div class="couple-names">
-          <div class="couple-person reveal">
-            <span class="cp-role">THE GROOM</span>
-            <h3>Alexander<br />James</h3>
-            <a class="cp-ig" href="#" aria-label="Instagram Alexander">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
-              @alexanderjames</a>
-          </div>
-          <div class="couple-amp reveal" aria-hidden="true">&amp;</div>
-          <div class="couple-person reveal">
-            <span class="cp-role">THE BRIDE</span>
-            <h3>Amelia<br />Rose</h3>
-            <a class="cp-ig" href="#" aria-label="Instagram Amelia">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
-              @ameliarose</a>
-          </div>
+        <div class="manifesto__note">
+          <span class="chapter-number">01</span>
+          <p>We invite you to slow down for a moment, step beyond the screen, and celebrate the day that two lives become a shared story.</p>
         </div>
       </div>
     </section>
 
-    <!-- STORY -->
-    <section class="story section" id="story">
-      <div class="container">
-        <p class="section-label reveal">OUR STORY</p>
-        <h2 class="section-title reveal">A Film Written<br /><em>for Two</em></h2>
-
-        <div class="chapter">
-          <div class="depth-scene" data-depth>
-            <div class="frame-window">
-              <div class="frame-photo"><img src="images/story-1.jpg" alt="Chapter I — The Beginning" loading="lazy" /></div>
-              <span class="frame-corner tl"></span><span class="frame-corner tr"></span>
-              <span class="frame-corner bl"></span><span class="frame-corner br"></span>
-            </div>
-          </div>
-          <div class="chapter-copy">
-            <span class="chapter-no reveal">CHAPTER I</span>
-            <h3 class="reveal">The Beginning</h3>
-            <p class="reveal">Tahun 2019. Sebuah sore yang biasa saja, di sebuah kedai kecil di
-              sudut kota. Dua orang asing memesan minuman yang sama — dan percakapan yang seharusnya
-              berlangsung lima menit, berlanjut hingga kedai itu tutup.</p>
-          </div>
+    <section class="couple section" data-section>
+      <div class="section-inner couple__layout">
+        <div class="couple__intro">
+          <p class="eyebrow">THE COUPLE</p>
+          <h2 class="display">Alexander<br><span>&</span><br>Amelia</h2>
+          <p>Two souls, two families, one promise. Designed in the spirit of an editorial love story.</p>
         </div>
-
-        <div class="chapter reverse">
-          <div class="depth-scene" data-depth>
-            <div class="frame-window arch">
-              <div class="frame-photo"><img src="images/story-2.jpg" alt="Chapter II — The Journey" loading="lazy" /></div>
-              <span class="frame-corner tl"></span><span class="frame-corner tr"></span>
-              <span class="frame-corner bl"></span><span class="frame-corner br"></span>
-            </div>
-          </div>
-          <div class="chapter-copy">
-            <span class="chapter-no reveal">CHAPTER II</span>
-            <h3 class="reveal">The Journey</h3>
-            <p class="reveal">Jarak, waktu, dan perbedaan tak pernah menjadi alasan. Setiap penerbangan,
-              setiap panggilan larut malam, setiap perjuangan kecil — semuanya menyatu menjadi satu
-              perjalanan yang kami lewati berdua.</p>
-          </div>
+        <div class="media-frame media-frame--portrait depth-scene" data-frame-scene>
+          <div class="media-frame__shadow"></div>
+          <img class="media-frame__image depth-photo" src="images/couple.svg" alt="Portrait placeholder of Alexander and Amelia" loading="lazy" />
+          <div class="media-frame__border"></div>
+          <div class="media-frame__corner media-frame__corner--tl"></div>
+          <div class="media-frame__corner media-frame__corner--br"></div>
         </div>
-
-        <div class="chapter">
-          <div class="depth-scene" data-depth>
-            <div class="frame-window">
-              <div class="frame-photo"><img src="images/story-3.jpg" alt="Chapter III — The Promise" loading="lazy" /></div>
-              <span class="frame-corner tl"></span><span class="frame-corner tr"></span>
-              <span class="frame-corner bl"></span><span class="frame-corner br"></span>
-            </div>
-          </div>
-          <div class="chapter-copy">
-            <span class="chapter-no reveal">CHAPTER III</span>
-            <h3 class="reveal">The Promise</h3>
-            <p class="reveal">Di bawah langit senja di tempat kita pertama bertemu, satu pertanyaan
-              sederhana dijawab dengan air mata bahagia. Sebuah janji — untuk selalu memilih satu
-              sama lain, di setiap musim kehidupan.</p>
-          </div>
-        </div>
-
-        <div class="chapter reverse">
-          <div class="depth-scene" data-depth>
-            <div class="frame-window arch">
-              <div class="frame-photo"><img src="images/story-4.jpg" alt="Chapter IV — Forever" loading="lazy" /></div>
-              <span class="frame-corner tl"></span><span class="frame-corner tr"></span>
-              <span class="frame-corner bl"></span><span class="frame-corner br"></span>
-            </div>
-          </div>
-          <div class="chapter-copy">
-            <span class="chapter-no reveal">CHAPTER IV</span>
-            <h3 class="reveal">Forever</h3>
-            <p class="reveal">Dan kini, bab baru dimulai. Bukan akhir dari cerita — melainkan
-              halaman pertama dari sisa hidup kami. Kami mengundang Anda menjadi bagian dari bab
-              yang tak akan pernah berakhir ini.</p>
-          </div>
+        <div class="couple__names">
+          <div><span>THE GROOM</span><strong>Alexander James</strong></div>
+          <div><span>THE BRIDE</span><strong>Amelia Rose</strong></div>
         </div>
       </div>
     </section>
 
-    <!-- GALLERY -->
-    <section class="gallery section" id="gallery">
-      <div class="container">
-        <p class="section-label reveal">GALLERY</p>
-        <h2 class="section-title reveal">Fragments of <em>Us</em></h2>
-        <div class="gallery-grid">
-          <figure class="g-item g-tall reveal" data-index="0"><img src="images/gallery-1.jpg" alt="Moments — the little things" loading="lazy" /><figcaption>the little things</figcaption></figure>
-          <figure class="g-item g-wide reveal" data-index="1"><img src="images/gallery-2.jpg" alt="Moments — golden hour" loading="lazy" /><figcaption>golden hour</figcaption></figure>
-          <figure class="g-item reveal" data-index="2"><img src="images/gallery-3.jpg" alt="Moments — laughter" loading="lazy" /><figcaption>laughter</figcaption></figure>
-          <figure class="g-item g-wide reveal" data-index="3"><img src="images/gallery-4.jpg" alt="Moments — quiet us" loading="lazy" /><figcaption>quiet us</figcaption></figure>
-          <figure class="g-item reveal" data-index="4"><img src="images/gallery-5.jpg" alt="Moments — the promise" loading="lazy" /><figcaption>the promise</figcaption></figure>
-          <figure class="g-item g-wide reveal" data-index="5"><img src="images/gallery-6.jpg" alt="Moments — home" loading="lazy" /><figcaption>home</figcaption></figure>
+    <section class="story section" id="story" data-section>
+      <div class="story__intro section-inner">
+        <p class="eyebrow">OUR STORY</p>
+        <h2 class="display display--large">Four chapters.<br><i>One promise.</i></h2>
+      </div>
+
+      <article class="story-scene depth-scene" data-frame-scene data-chapter="01">
+        <div class="story-scene__stage">
+          <div class="story-scene__frame">
+            <div class="story-scene__depth"></div>
+            <img class="story-scene__image depth-photo" src="images/story-1.svg" alt="Story chapter one placeholder" loading="lazy" />
+            <span class="frame-line frame-line--a"></span>
+            <span class="frame-line frame-line--b"></span>
+          </div>
+          <div class="story-scene__caption">
+            <span>CHAPTER I</span>
+            <h3>The Beginning</h3>
+            <p>A first hello, an unexpected laugh, and a small moment that quietly changed everything.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="story-scene story-scene--reverse depth-scene" data-frame-scene data-chapter="02">
+        <div class="story-scene__stage">
+          <div class="story-scene__frame story-scene__frame--tall">
+            <div class="story-scene__depth"></div>
+            <img class="story-scene__image depth-photo" src="images/story-2.svg" alt="Story chapter two placeholder" loading="lazy" />
+          </div>
+          <div class="story-scene__caption">
+            <span>CHAPTER II</span>
+            <h3>The Journey</h3>
+            <p>Long days, late nights, shared dreams — the distance made every return feel like coming home.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="story-scene depth-scene" data-frame-scene data-chapter="03">
+        <div class="story-scene__stage">
+          <div class="story-scene__frame story-scene__frame--wide">
+            <div class="story-scene__depth"></div>
+            <img class="story-scene__image depth-photo" src="images/story-3.svg" alt="Story chapter three placeholder" loading="lazy" />
+          </div>
+          <div class="story-scene__caption">
+            <span>CHAPTER III</span>
+            <h3>The Promise</h3>
+            <p>A promise became a plan, and a plan became the beginning of the future we choose together.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="story-scene story-scene--reverse depth-scene" data-frame-scene data-chapter="04">
+        <div class="story-scene__stage">
+          <div class="story-scene__frame">
+            <div class="story-scene__depth"></div>
+            <img class="story-scene__image depth-photo" src="images/story-4.svg" alt="Story chapter four placeholder" loading="lazy" />
+          </div>
+          <div class="story-scene__caption">
+            <span>CHAPTER IV</span>
+            <h3>Forever</h3>
+            <p>And now, before the people we love, we turn the page together and say yes to forever.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="gallery section section--dark" id="gallery" data-section>
+      <div class="section-inner">
+        <div class="gallery__heading">
+          <div>
+            <p class="eyebrow">MOMENTS IN FRAME</p>
+            <h2 class="display display--large">A life,<br><i>beautifully lived.</i></h2>
+          </div>
+          <p>Tap any frame to enter the memory.</p>
+        </div>
+        <div class="gallery-grid" id="galleryGrid">
+          <button class="gallery-card gallery-card--big" data-gallery="0" type="button">
+            <img src="images/gallery-1.svg" alt="Gallery placeholder one" loading="lazy" />
+            <span>01 / STILLNESS</span>
+          </button>
+          <button class="gallery-card gallery-card--small gallery-card--offset" data-gallery="1" type="button">
+            <img src="images/gallery-2.svg" alt="Gallery placeholder two" loading="lazy" />
+            <span>02 / LAUGHTER</span>
+          </button>
+          <button class="gallery-card gallery-card--small" data-gallery="2" type="button">
+            <img src="images/gallery-3.svg" alt="Gallery placeholder three" loading="lazy" />
+            <span>03 / SUNSET</span>
+          </button>
+          <button class="gallery-card gallery-card--wide" data-gallery="3" type="button">
+            <img src="images/gallery-4.svg" alt="Gallery placeholder four" loading="lazy" />
+            <span>04 / TOGETHER</span>
+          </button>
+          <button class="gallery-card gallery-card--portrait" data-gallery="4" type="button">
+            <img src="images/gallery-5.svg" alt="Gallery placeholder five" loading="lazy" />
+            <span>05 / HOME</span>
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- COUNTDOWN -->
-    <section class="countdown section" id="countdown">
-      <div class="container">
-        <p class="section-label reveal">COUNTING THE MOMENTS</p>
-        <h2 class="section-title reveal">Until We Say <em>“I Do”</em></h2>
-        <div class="cd-grid" role="timer" aria-live="polite" aria-label="Hitung mundur pernikahan">
-          <div class="cd-unit reveal"><span class="cd-num" id="cd-days">00</span><span class="cd-label">DAYS</span></div>
-          <div class="cd-sep reveal" aria-hidden="true">:</div>
-          <div class="cd-unit reveal"><span class="cd-num" id="cd-hours">00</span><span class="cd-label">HOURS</span></div>
-          <div class="cd-sep reveal" aria-hidden="true">:</div>
-          <div class="cd-unit reveal"><span class="cd-num" id="cd-mins">00</span><span class="cd-label">MINUTES</span></div>
-          <div class="cd-sep reveal" aria-hidden="true">:</div>
-          <div class="cd-unit reveal"><span class="cd-num" id="cd-secs">00</span><span class="cd-label">SECONDS</span></div>
+    <section class="event section" id="event" data-section>
+      <div class="section-inner">
+        <div class="event__heading">
+          <p class="eyebrow">SAVE THE DATE</p>
+          <h2 class="display display--large">Meet us<br><i>under the lights.</i></h2>
         </div>
-      </div>
-    </section>
-
-    <!-- EVENT -->
-    <section class="event section" id="event">
-      <div class="container">
-        <p class="section-label reveal">THE CELEBRATION</p>
-        <h2 class="section-title reveal">Wedding <em>Event</em></h2>
-        <div class="event-cards">
-          <article class="event-card reveal">
-            <svg class="event-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="24" cy="20" r="7"/><path d="M17 33c2.5-3 11.5-3 14 0M24 6v3M10 20h3M35 20h3"/></svg>
-            <h3>AKAD NIKAH</h3>
-            <p class="event-date">Saturday, 12 December 2026</p>
-            <p class="event-time">09:00 — 11:00 WIB</p>
-            <div class="event-line" aria-hidden="true"></div>
-            <p class="event-venue">Grand Wedding Hall</p>
-            <p class="event-addr">Jl. Kemang Raya No. 88, Jakarta Selatan</p>
-            <a class="btn-gold magnetic" href="https://maps.google.com/?q=Kemang+Raya+Jakarta" target="_blank" rel="noopener">
-              <span>VIEW LOCATION</span>
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
-            </a>
+        <div class="event__cards">
+          <article class="event-card">
+            <div class="event-card__top"><span>01</span><span>DAY</span></div>
+            <h3>Akad Nikah</h3>
+            <p>12 December 2026<br>09:00 WIB</p>
+            <span class="event-card__place">Grand Wedding Hall</span>
+            <a class="text-link magnetic" href="https://maps.google.com/?q=Grand%20Wedding%20Hall%20Jakarta" target="_blank" rel="noreferrer">VIEW LOCATION ↗</a>
           </article>
-          <article class="event-card reveal">
-            <svg class="event-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M10 40V22l14-10 14 10v18"/><path d="M18 40v-8h12v8M24 12v-4"/></svg>
-            <h3>RESEPSI</h3>
-            <p class="event-date">Saturday, 12 December 2026</p>
-            <p class="event-time">19:00 — 21:00 WIB</p>
-            <div class="event-line" aria-hidden="true"></div>
-            <p class="event-venue">Grand Wedding Hall</p>
-            <p class="event-addr">Jl. Kemang Raya No. 88, Jakarta Selatan</p>
-            <a class="btn-gold magnetic" href="https://maps.google.com/?q=Kemang+Raya+Jakarta" target="_blank" rel="noopener">
-              <span>VIEW LOCATION</span>
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
-            </a>
+          <article class="event-card event-card--featured">
+            <div class="event-card__top"><span>02</span><span>NIGHT</span></div>
+            <h3>Resepsi</h3>
+            <p>12 December 2026<br>19:00 WIB</p>
+            <span class="event-card__place">Grand Wedding Hall</span>
+            <a class="text-link magnetic" href="https://maps.google.com/?q=Grand%20Wedding%20Hall%20Jakarta" target="_blank" rel="noreferrer">VIEW LOCATION ↗</a>
           </article>
         </div>
+        <p class="event__address">Jl. Placeholder No. 12, Jakarta · Indonesia</p>
       </div>
     </section>
 
-    <!-- RSVP -->
-    <section class="rsvp section" id="rsvp">
-      <div class="container container-narrow">
-        <p class="section-label reveal">KINDLY RESPOND</p>
-        <h2 class="section-title reveal">Will You <em>Join Us?</em></h2>
-        <p class="rsvp-note reveal">Konfirmasi kehadiran Anda paling lambat 1 Desember 2026.</p>
-        <form class="rsvp-form reveal" id="rsvpForm" novalidate>
-          <div class="field">
-            <label for="f-name">Nama</label>
-            <input type="text" id="f-name" name="name" placeholder="Nama lengkap Anda" autocomplete="name" required />
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="f-guests">Jumlah Tamu</label>
-              <div class="select-wrap">
-                <select id="f-guests" name="guests" required>
-                  <option value="" disabled selected>Pilih jumlah</option>
-                  <option value="1">1 orang</option>
-                  <option value="2">2 orang</option>
-                  <option value="3">3 orang</option>
-                  <option value="4">4 orang</option>
-                </select>
-              </div>
+    <section class="countdown section section--dark" data-section>
+      <div class="section-inner countdown__inner">
+        <p class="eyebrow">COUNTING THE MOMENTS</p>
+        <div class="countdown__grid">
+          <div><strong data-count="days">00</strong><span>DAYS</span></div>
+          <div><strong data-count="hours">00</strong><span>HOURS</span></div>
+          <div><strong data-count="minutes">00</strong><span>MINUTES</span></div>
+          <div><strong data-count="seconds">00</strong><span>SECONDS</span></div>
+        </div>
+        <p class="countdown__note">Until the day we say “I do”.</p>
+      </div>
+    </section>
+
+    <section class="location section" id="location" data-section>
+      <div class="section-inner location__layout">
+        <div>
+          <p class="eyebrow">THE LOCATION</p>
+          <h2 class="display display--large">Where our<br><i>forever begins.</i></h2>
+        </div>
+        <div class="location__card">
+          <span class="chapter-number">JAKARTA · ID</span>
+          <h3>Grand Wedding Hall</h3>
+          <p>Jl. Placeholder No. 12<br>Jakarta Selatan, Indonesia</p>
+          <a class="button button--dark magnetic" href="https://maps.google.com/?q=Grand%20Wedding%20Hall%20Jakarta" target="_blank" rel="noreferrer"><span>OPEN MAPS</span><i aria-hidden="true">↗</i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="rsvp section" id="rsvp" data-section>
+      <div class="section-inner rsvp__layout">
+        <div class="rsvp__copy">
+          <p class="eyebrow">RSVP</p>
+          <h2 class="display display--large">Save us<br><i>a seat in your heart.</i></h2>
+          <p>Please let us know your attendance. Your presence is already a gift.</p>
+        </div>
+        <form class="rsvp-form" id="rsvpForm">
+          <label><span>Name</span><input name="name" required placeholder="Your name" autocomplete="name" /></label>
+          <label><span>Guests</span><select name="guests"><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+          <fieldset>
+            <legend>Attendance</legend>
+            <div class="attendance-options">
+              <label><input type="radio" name="attendance" value="Hadir" checked /><span>Hadir</span></label>
+              <label><input type="radio" name="attendance" value="Tidak Hadir" /><span>Tidak Hadir</span></label>
+              <label><input type="radio" name="attendance" value="Masih Ragu" /><span>Masih Ragu</span></label>
             </div>
-            <div class="field">
-              <label>Konfirmasi Kehadiran</label>
-              <div class="radio-group" role="radiogroup" aria-label="Konfirmasi kehadiran">
-                <label class="radio-pill"><input type="radio" name="attend" value="Hadir" required /><span>Hadir</span></label>
-                <label class="radio-pill"><input type="radio" name="attend" value="Tidak Hadir" /><span>Tidak Hadir</span></label>
-                <label class="radio-pill"><input type="radio" name="attend" value="Masih Ragu" /><span>Masih Ragu</span></label>
-              </div>
-            </div>
-          </div>
-          <div class="field">
-            <label for="f-msg">Ucapan &amp; Doa</label>
-            <textarea id="f-msg" name="message" rows="4" placeholder="Tuliskan ucapan dan doa terbaik Anda..."></textarea>
-          </div>
-          <button class="btn-gold btn-submit magnetic" type="submit"><span>SEND RSVP</span></button>
-          <p class="form-error" id="formError" role="alert"></p>
+          </fieldset>
+          <label><span>Message</span><textarea name="message" rows="4" placeholder="Leave a little wish..."></textarea></label>
+          <button class="button button--dark magnetic" type="submit"><span>SEND RSVP</span><i aria-hidden="true">↗</i></button>
         </form>
       </div>
     </section>
 
-    <!-- WISHES -->
-    <section class="wishes section" id="wishes">
-      <div class="container container-narrow">
-        <p class="section-label reveal">GUESTBOOK</p>
-        <h2 class="section-title reveal">Wishes &amp; <em>Blessings</em></h2>
-        <div class="wish-list" id="wishList" aria-live="polite"></div>
+    <section class="wishes section section--dark" id="wishes" data-section>
+      <div class="section-inner wishes__layout">
+        <div>
+          <p class="eyebrow">A NOTE FOR US</p>
+          <h2 class="display display--large">Leave a little<br><i>love behind.</i></h2>
+          <p class="wishes__intro">Your prayers and kind words will stay with us long after the celebration ends.</p>
+        </div>
+        <form class="wishes-form" id="wishesForm">
+          <label><span>Name</span><input name="name" required placeholder="Your name" autocomplete="name" /></label>
+          <label><span>Your wishes</span><textarea name="message" rows="5" required placeholder="Write a little wish..."></textarea></label>
+          <button class="button button--light magnetic" type="submit"><span>SEND WISHES</span><i aria-hidden="true">↗</i></button>
+        </form>
       </div>
     </section>
 
-    <!-- GIFT -->
-    <section class="gift section" id="gift">
-      <div class="container">
-        <p class="section-label reveal">WEDDING GIFT</p>
-        <h2 class="section-title reveal">With <em>Gratitude</em></h2>
-        <p class="gift-note reveal">Kehadiran Anda adalah hadiah terindah. Namun jika berkenan
-          memberikan tanda kasih, kami sediakan dengan hormat:</p>
-        <div class="gift-cards">
-          <div class="gift-card reveal">
-            <span class="gift-type">BANK TRANSFER</span>
-            <p class="gift-num" id="acct1">1234 5678 9012</p>
-            <p class="gift-holder">a.n. Amelia Rose</p>
-            <button class="btn-copy magnetic" type="button" data-copy="acct1">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
-              <span>COPY NUMBER</span></button>
-          </div>
-          <div class="gift-card reveal">
-            <span class="gift-type">SEND GIFT</span>
-            <p class="gift-num gift-addr">Jl. Kemang Raya No. 88,<br />Jakarta Selatan 12730</p>
-            <p class="gift-holder">a.n. Alexander James</p>
-            <button class="btn-copy magnetic" type="button" data-copy-text="Jl. Kemang Raya No. 88, Jakarta Selatan 12730">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
-              <span>COPY ADDRESS</span></button>
-          </div>
+    <section class="gift section" id="gift" data-section>
+      <div class="section-inner gift__layout">
+        <div>
+          <p class="eyebrow">A THOUGHTFUL GESTURE</p>
+          <h2 class="display display--large">Your presence<br><i>is our present.</i></h2>
+        </div>
+        <div class="gift__card">
+          <span class="chapter-number">DIGITAL GIFT</span>
+          <p>For friends and family who would like to send a gift, you may use the details below.</p>
+          <strong>Alexander & Amelia</strong>
+          <span class="gift__account">BCA · 1234567890</span>
+          <button class="text-link magnetic" id="copyGift" type="button">COPY ACCOUNT NUMBER</button>
         </div>
       </div>
     </section>
 
-    <!-- CLOSING -->
-    <section class="closing section" id="closing">
-      <div class="container">
-        <div class="depth-scene closing-frame" data-depth>
-          <div class="frame-window arch">
-            <div class="frame-photo"><img src="images/hero.jpg" alt="Alexander dan Amelia" loading="lazy" /></div>
-            <span class="frame-corner tl"></span><span class="frame-corner tr"></span>
-            <span class="frame-corner bl"></span><span class="frame-corner br"></span>
-          </div>
-        </div>
-        <p class="closing-quote reveal">“Two souls, one heart —<br />today, tomorrow, always.”</p>
-        <h2 class="closing-names reveal">Alexander <span>&amp;</span> Amelia</h2>
-        <p class="closing-thanks reveal">Merupakan kehormatan bagi kami apabila Anda berkenan hadir.
-          Sampai jumpa di hari bahagia kami.</p>
+    <section class="closing section section--dark" data-section>
+      <div class="closing__light"></div>
+      <div class="section-inner closing__inner">
+        <p class="eyebrow">UNTIL FOREVER</p>
+        <h2 class="display display--huge">Alexander <span>&</span> Amelia</h2>
+        <p>12 · 12 · 2026</p>
       </div>
     </section>
-
-    <footer class="footer">
-      <div class="ornament" aria-hidden="true"><i></i><b></b><i></i></div>
-      <p>THE WEDDING OF ALEXANDER &amp; AMELIA</p>
-      <p class="footer-date">12 · 12 · 2026 — JAKARTA</p>
-      <p class="footer-credit">Crafted with love · Premium Digital Invitation</p>
-    </footer>
   </main>
 
-  <!-- Music toggle -->
-  <button class="music-toggle" id="musicToggle" type="button" aria-label="Musik latar" aria-pressed="false">
-    <svg class="mt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-      <path d="M9 18V6l10-2v11"/><circle cx="6.8" cy="18" r="2.6"/><circle cx="16.8" cy="15" r="2.6"/>
-    </svg>
-    <span class="mt-bars" aria-hidden="true"><i></i><i></i><i></i></span>
-  </button>
+  <footer class="footer">
+    <span>A <i>×</i> A</span>
+    <p>Made with love for our forever.</p>
+    <span>12 · 12 · 2026</span>
+  </footer>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galeri foto" hidden>
-    <button class="lb-close" id="lbClose" type="button" aria-label="Tutup">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
-    </button>
-    <button class="lb-prev" id="lbPrev" type="button" aria-label="Foto sebelumnya">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 5l-7 7 7 7"/></svg>
-    </button>
-    <figure class="lb-stage"><img id="lbImg" src="" alt="" /><figcaption id="lbCap"></figcaption></figure>
-    <button class="lb-next" id="lbNext" type="button" aria-label="Foto berikutnya">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 5l7 7-7 7"/></svg>
-    </button>
+  <output class="toast" id="toast" aria-live="polite"></output>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox__close icon-button" type="button" aria-label="Close gallery">×</button>
+    <button class="lightbox__nav lightbox__nav--prev icon-button" type="button" aria-label="Previous image">←</button>
+    <figure class="lightbox__figure">
+      <img id="lightboxImage" src="" alt="" />
+      <figcaption id="lightboxCaption"></figcaption>
+    </figure>
+    <button class="lightbox__nav lightbox__nav--next icon-button" type="button" aria-label="Next image">→</button>
   </div>
 
-  <!-- RSVP confirmation -->
-  <div class="confirm" id="confirmOverlay" role="dialog" aria-modal="true" aria-label="Konfirmasi RSVP" hidden>
-    <div class="confirm-card">
-      <svg class="confirm-check" viewBox="0 0 64 64" aria-hidden="true">
-        <circle class="cc-ring" cx="32" cy="32" r="29" />
-        <path class="cc-tick" d="M20 33l8 8 16-17" />
-      </svg>
-      <h3>Thank You</h3>
-      <p id="confirmText">Konfirmasi Anda telah kami terima.</p>
-      <button class="btn-gold" id="confirmClose" type="button"><span>CLOSE</span></button>
-    </div>
-  </div>
+  <audio id="bgMusic" preload="auto" loop>
+    <source src="audio/ambient-pulse.wav" type="audio/wav">
+  </audio>
 
-  <audio id="bgMusic" loop preload="auto" src="audio/wedding-song.wav"></audio>
-  <script src="js/script.js"></script>
+  <script src="js/script.js" defer></script>
 </body>
 </html>
